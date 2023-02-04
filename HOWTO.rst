@@ -3727,8 +3727,7 @@ Verification
 	set. If not set, will default to the value of :option:`verify_backlog`
 	(meaning the entire queue is read back and verified).  If
 	``verify_backlog_batch`` is less than :option:`verify_backlog` then not all
-	blocks will be verified, if ``verify_backlog_batch`` is larger than
-	:option:`verify_backlog`, some blocks will be verified more than once.
+	blocks will be verified.
 
 .. option:: verify_state_save=bool
 
