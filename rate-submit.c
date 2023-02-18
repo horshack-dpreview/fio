@@ -10,7 +10,7 @@
 #include "lib/getrusage.h"
 #include "rate-submit.h"
 
-static void check_overlap(struct io_u *io_u)
+static void check_overlap(struct thread_data *td_io, struct io_u *io_u)
 {
 	int i, res;
 	struct thread_data *td;
@@ -47,6 +47,7 @@ retry:
 		assert(res == 0);
 		goto retry;
 	}
+	io_u_set(td_io, io_u, IO_U_F_OVERLAP_LOCK);
 }
 
 static int io_workqueue_fn(struct submit_worker *sw,
@@ -58,7 +59,7 @@ static int io_workqueue_fn(struct submit_worker *sw,
 	int ret, error;
 
 	if (td->o.serialize_overlap)
-		check_overlap(io_u);
+		check_overlap(td, io_u);
 
 	dprint(FD_RATE, "io_u %p queued by %u\n", io_u, gettid());
 
