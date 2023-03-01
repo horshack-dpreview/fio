@@ -1946,9 +1946,7 @@ static void *thread_main(void *data)
 		if (td->error || td->terminate)
 			break;
 
-		if (!o->do_verify ||
-		    o->verify == VERIFY_NONE ||
-		    td_ioengine_flagged(td, FIO_UNIDIR))
+		if (!o->do_verify || o->verify == VERIFY_NONE)
 			continue;
 
 		clear_io_state(td, 0);

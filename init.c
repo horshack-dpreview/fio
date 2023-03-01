@@ -657,6 +657,16 @@ static int fixup_options(struct thread_data *td)
 			o->zone_mode = ZONE_MODE_NONE;
 	}
 
+	if (td_ioengine_flagged(td, FIO_UNIDIR)) {
+		if (td_rw(td)) {
+			log_err("fio: A unidirectional I/O engine was specified but workload is read+write\n");
+			ret |= 1;
+		} else if (td_write(td) && o->verify != VERIFY_NONE) {
+			log_err("fio: A unidirectional I/O engine was specified but workload is write+verify\n");
+			ret |= 1;
+		}
+	}
+
 	/*
 	 * Strided zone mode only really works with 1 file.
 	 */
